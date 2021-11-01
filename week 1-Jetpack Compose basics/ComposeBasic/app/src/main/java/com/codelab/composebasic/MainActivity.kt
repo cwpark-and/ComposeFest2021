@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -50,7 +52,7 @@ private fun MyApp() {
                 shouldShowOnBoarding = false
             }
         } else {
-            Greetings("Android", "Compose", "World")
+            Greetings()
         }
     }
 }
@@ -85,14 +87,22 @@ fun Greeting(name: String) {
 }
 
 @Composable
-fun Greetings(vararg names: String) {
-    Column(
+fun Greetings(names: List<String> = List(1000) {"$it"}) {
+    LazyColumn(
         modifier = Modifier.padding(vertical = 2.dp)
     ) {
-        for(name in names) {
+        items(items = names) { name ->
             Greeting(name)
         }
     }
+
+//    Column(
+//        modifier = Modifier.padding(vertical = 2.dp)
+//    ) {
+//        for(name in names) {
+//            Greeting(name)
+//        }
+//    }
 }
 
 @Preview(showBackground = true, widthDp = 320, heightDp = 640)
