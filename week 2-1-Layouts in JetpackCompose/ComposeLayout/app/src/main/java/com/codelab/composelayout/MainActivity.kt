@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -26,6 +28,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.codelab.composelayout.ui.composable.ImageList
+import com.codelab.composelayout.ui.composable.ImageListItem
+import com.codelab.composelayout.ui.composable.SimpleList
 import com.codelab.composelayout.ui.theme.ComposeLayoutTheme
 
 class MainActivity : ComponentActivity() {
@@ -35,7 +40,7 @@ class MainActivity : ComponentActivity() {
             ComposeLayoutTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Layout()
+                    ImageList()
                 }
             }
         }
@@ -80,7 +85,9 @@ fun PhotographerCard(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun Layout() {
+fun Layout(
+    bodyContent: (@Composable () -> Unit)
+) {
     var isFavorite = remember {
         mutableStateOf(true)
     }
@@ -126,8 +133,8 @@ fun Layout() {
                 )
             }
         }
-    ) { innerPadding ->
-        BodyContents(Modifier.padding(innerPadding))
+    ) {
+        bodyContent()
     }
 }
 
@@ -143,6 +150,16 @@ fun BodyContents(modifier: Modifier = Modifier) {
 @Composable
 fun DefaultPreview() {
     ComposeLayoutTheme {
-        Layout()
+        Layout() {
+            BodyContents()
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultSimpleListPreview() {
+    ComposeLayoutTheme {
+        SimpleList()
     }
 }
