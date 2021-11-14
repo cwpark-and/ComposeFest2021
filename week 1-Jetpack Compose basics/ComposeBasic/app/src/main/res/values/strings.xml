@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ComposeBasic</string>
+
+    <string name="show_less">Show less</string>
+    <string name="show_more">Show more</string>
+
+    <string name="more_text">compose ipsum color sit lazy, padding theme elit, sed to bouncy.</string>
 </resources>
