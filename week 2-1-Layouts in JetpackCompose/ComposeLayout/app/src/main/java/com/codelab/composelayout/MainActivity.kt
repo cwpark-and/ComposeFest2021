@@ -113,6 +113,18 @@ fun Layout() {
                 },
                 elevation = 4.dp
             )
+        },
+        bottomBar = {
+            BottomNavigation(
+            ) {
+                BottomNavigationItem(
+                    icon = {Icon(Icons.Default.Call, contentDescription = "call")},
+                    label = {Text(text="CALL")},
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    selected = false,
+                    onClick = {}
+                )
+            }
         }
     ) { innerPadding ->
         BodyContents(Modifier.padding(innerPadding))
