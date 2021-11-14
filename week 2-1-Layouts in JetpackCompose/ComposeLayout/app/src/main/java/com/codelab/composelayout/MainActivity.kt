@@ -9,14 +9,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -28,9 +25,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.codelab.composelayout.ui.composable.CustomColumn
 import com.codelab.composelayout.ui.composable.ImageList
-import com.codelab.composelayout.ui.composable.ImageListItem
 import com.codelab.composelayout.ui.composable.SimpleList
+import com.codelab.composelayout.ui.modifier.firstBaselineToTop
 import com.codelab.composelayout.ui.theme.ComposeLayoutTheme
 
 class MainActivity : ComponentActivity() {
@@ -85,7 +83,7 @@ fun PhotographerCard(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun Layout(
+fun MainLayout(
     bodyContent: (@Composable () -> Unit)
 ) {
     var isFavorite = remember {
@@ -140,7 +138,7 @@ fun Layout(
 
 @Composable
 fun BodyContents(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
+    CustomColumn(modifier = modifier) {
         Text(text = "Hi there!")
         Text(text = "Thanks for going through the Layouts codelab")
     }
@@ -150,7 +148,7 @@ fun BodyContents(modifier: Modifier = Modifier) {
 @Composable
 fun DefaultPreview() {
     ComposeLayoutTheme {
-        Layout() {
+        MainLayout() {
             BodyContents()
         }
     }
@@ -161,5 +159,21 @@ fun DefaultPreview() {
 fun DefaultSimpleListPreview() {
     ComposeLayoutTheme {
         SimpleList()
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FirstBaseLinePreView() {
+    ComposeLayoutTheme {
+        Text("Hi there", Modifier.firstBaselineToTop(20.dp))
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PaddingPreView() {
+    ComposeLayoutTheme {
+        Text("Hi there", Modifier.padding(top = 20.dp))
     }
 }
