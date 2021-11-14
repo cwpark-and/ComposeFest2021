@@ -5,10 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -25,9 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.codelab.composelayout.ui.composable.CustomColumn
-import com.codelab.composelayout.ui.composable.ImageList
-import com.codelab.composelayout.ui.composable.SimpleList
+import com.codelab.composelayout.ui.composable.*
 import com.codelab.composelayout.ui.modifier.firstBaselineToTop
 import com.codelab.composelayout.ui.theme.ComposeLayoutTheme
 
@@ -35,11 +35,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ComposeLayoutTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    ImageList()
-                }
+//            ComposeLayoutTheme {
+//                // A surface container using the 'background' color from the theme
+//                Surface(color = MaterialTheme.colors.background) {
+//                    ImageList()
+//                }
+//            }
+            MainLayout {
+                BodyContents(Modifier.horizontalScroll(rememberScrollState()))
             }
         }
     }
@@ -138,9 +141,14 @@ fun MainLayout(
 
 @Composable
 fun BodyContents(modifier: Modifier = Modifier) {
-    CustomColumn(modifier = modifier) {
-        Text(text = "Hi there!")
-        Text(text = "Thanks for going through the Layouts codelab")
+//    CustomColumn(modifier = modifier) {
+//        Text(text = "Hi there!")
+//        Text(text = "Thanks for going through the Layouts codelab")
+//    }
+    StaggeredGrid(modifier = modifier, rows = 5) {
+        for(topic in topics) {
+            Chip(modifier = Modifier.padding(8.dp), text= topic)
+        }
     }
 }
 
