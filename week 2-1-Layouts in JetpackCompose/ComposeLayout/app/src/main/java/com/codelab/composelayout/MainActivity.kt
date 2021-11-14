@@ -12,8 +12,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.twotone.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +35,7 @@ class MainActivity : ComponentActivity() {
             ComposeLayoutTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    PhotographerCard()
+                    Layout()
                 }
             }
         }
@@ -60,7 +66,9 @@ fun PhotographerCard(modifier: Modifier = Modifier) {
         }
 
         Column(
-            modifier = Modifier.padding(start = 8.dp).align(Alignment.CenterVertically)
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .align(Alignment.CenterVertically)
         ) {
             Text("Alfred Sisley", fontWeight = FontWeight.Bold)
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
@@ -70,10 +78,59 @@ fun PhotographerCard(modifier: Modifier = Modifier) {
     }
 }
 
+
+@Composable
+fun Layout() {
+    var isFavorite = remember {
+        mutableStateOf(true)
+    }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = "TopBar")
+                },
+                navigationIcon = {
+                     IconButton(onClick = { /*TODO*/ }) {
+                         Icon(Icons.Filled.Menu, contentDescription = "menu")
+                     }
+                },
+                actions = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.Search, contentDescription = "search")
+                    }
+                    IconButton(onClick = {
+                        isFavorite.value = !isFavorite.value
+                    }) {
+                        val isFilled = isFavorite.value
+                        val icons = if(isFilled) Icons.Filled.Favorite else Icons.TwoTone.Favorite
+                        Icon(icons, contentDescription = "favorite")
+                    }
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(Icons.Filled.MoreVert, contentDescription = "more")
+                    }
+                },
+                elevation = 4.dp
+            )
+        }
+    ) { innerPadding ->
+        BodyContents(Modifier.padding(innerPadding))
+    }
+}
+
+@Composable
+fun BodyContents(modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Text(text = "Hi there!")
+        Text(text = "Thanks for going through the Layouts codelab")
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     ComposeLayoutTheme {
-        PhotographerCard()
+        Layout()
     }
 }
