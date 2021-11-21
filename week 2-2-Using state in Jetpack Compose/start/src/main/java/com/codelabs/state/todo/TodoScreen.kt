@@ -36,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codelabs.state.util.generateRandomTodoItem
@@ -117,7 +118,7 @@ fun TodoRow(
 fun TodoInputTextField(
     text: String,
     onTextChange: (String) -> Unit,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
     TodoInputText(text = text, onTextChange = onTextChange, modifier = modifier)
 }
@@ -127,25 +128,38 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     val (text, setText) = remember {
         mutableStateOf("")
     }
+    val (icon, setIcon) = remember {
+        mutableStateOf(TodoIcon.Default)
+    }
+    val iconVisible = text.isNotBlank()
+    val submit = {
+        onItemComplete(TodoItem(icon = icon, task = text))
+        setIcon(TodoIcon.Default)
+        setText("")
+    }
     Column {
         Row(
             Modifier
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)) {
-            TodoInputTextField(
+            TodoInputText(
                 text = text,
                 onTextChange = setText,
                 modifier = Modifier
                     .weight(1f)
-                    .padding(8.dp))
-            TodoEditButton(onClick = {
-                    onItemComplete.invoke(TodoItem(text))
-                    setText("")
-                },
+                    .padding(8.dp),
+                onImeAction = submit
+            )
+            TodoEditButton(onClick = submit,
                 text = "Add",
                 modifier = Modifier.align(Alignment.CenterVertically),
-                enabled = text.isNotBlank()
+                enabled = iconVisible,
             )
+        }
+        if(iconVisible) {
+            IconRow(icon = icon, onIconChange = {
+                setIcon(it)
+            })
         }
     }
 }
