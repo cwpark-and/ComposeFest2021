@@ -17,12 +17,7 @@
 package com.codelabs.state.todo
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
@@ -80,7 +75,7 @@ fun TodoScreen(
             items(items = items) { todo ->
                 if(currentlyEditing?.id == todo.id) {
                     TodoItemInlineEditor(
-                        item = todo,
+                        item = currentlyEditing,
                         onEditItemChange = onEditItemChange,
                         onEditDone = onEditDone,
                         onRemoveItem = { onRemoveItem(todo) }
@@ -129,7 +124,6 @@ fun TodoRow(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(todo.task)
-        val iconAlpha =
         Icon(
             imageVector = todo.icon.imageVector,
             tint = LocalContentColor.current.copy(iconAlpha),
@@ -161,7 +155,9 @@ fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
         setIcon(TodoIcon.Default)
         setText("")
     }
-    TodoItemInput(text, setText, icon, setIcon, submit, iconVisible)
+    TodoItemInput(text, setText, icon, setIcon, submit, iconVisible) {
+        TodoEditButton(onClick = submit, text = "Add", enabled = iconVisible)
+    }
 }
 
 @Composable
@@ -171,13 +167,15 @@ private fun TodoItemInput(
     icon: TodoIcon,
     onIconChange: (TodoIcon) -> Unit,
     submit: () -> Unit,
-    iconVisible: Boolean
+    iconVisible: Boolean,
+    buttonSlot: @Composable () -> Unit
 ) {
     Column {
         Row(
             Modifier
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
+                .height(IntrinsicSize.Min)
         ) {
             TodoInputText(
                 text = text,
@@ -187,17 +185,17 @@ private fun TodoItemInput(
                     .padding(8.dp),
                 onImeAction = submit
             )
-            TodoEditButton(
-                onClick = submit,
-                text = "Add",
-                modifier = Modifier.align(Alignment.CenterVertically),
-                enabled = iconVisible,
-            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Box(modifier = Modifier.align(Alignment.CenterVertically)) {
+                buttonSlot()
+            }
         }
         if (iconVisible) {
-            IconRow(icon = icon, onIconChange = {
+            AnimatedIconRow(icon = icon, onIconChange = {
                 onIconChange(it)
-            })
+            }, modifier = Modifier.padding(8.dp))
+        } else {
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -208,14 +206,35 @@ fun TodoItemInlineEditor(
     onEditItemChange: (TodoItem) -> Unit,
     onEditDone: () -> Unit,
     onRemoveItem: (TodoItem) -> Unit
-) = TodoItemInput(
-    text = item.task,
-    onTextChange = {onEditItemChange(item.copy(task = it))},
-    icon = item.icon,
-    onIconChange = {onEditItemChange(item.copy(icon = it))},
-    submit = onEditDone,
-    iconVisible = true
-)
+) {
+    TodoItemInput(
+        text = item.task,
+        onTextChange = {onEditItemChange(item.copy(task = it))},
+        icon = item.icon,
+        onIconChange = {onEditItemChange(item.copy(icon = it))},
+        submit = onEditDone,
+        iconVisible = true,
+        buttonSlot = {
+            Row {
+                val shrinkButtons = Modifier.widthIn(20.dp)
+                TextButton(onClick = onEditDone, modifier = shrinkButtons) {
+                    Text(
+                        text = "💾",
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.widthIn(30.dp)
+                    )
+                }
+                TextButton(onClick = {onRemoveItem(item)}, modifier = shrinkButtons) {
+                    Text(
+                        text = "❌",
+                        textAlign = TextAlign.End,
+                        modifier = Modifier.widthIn(30.dp)
+                    )
+                }
+            }
+        }
+    )
+}
 
 private fun randomTint(): Float {
     return Random.nextFloat().coerceIn(0.3f, 0.9f)
