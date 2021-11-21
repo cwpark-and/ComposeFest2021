@@ -8,10 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -271,6 +268,29 @@ fun DecoupledConstraintLayout() {
     }
 }
 
+@Composable
+fun TwoText() {
+    ConstraintLayout(
+        modifier = Modifier.height(IntrinsicSize.Min)
+    ) {
+        val (text1, text2, divider) = createRefs()
+
+        Text("Hi", Modifier.constrainAs(text1) {
+            start.linkTo(parent.start)
+            end.linkTo(divider.start)
+        }.padding(horizontal = 16.dp))
+
+        Divider(color = Color.Black, modifier = Modifier.fillMaxHeight().width(1.dp).constrainAs(divider) {
+            centerHorizontallyTo(parent)
+        })
+
+        Text("There", Modifier.constrainAs(text2) {
+            start.linkTo(divider.end)
+            end.linkTo(parent.end)
+        }.padding(horizontal = 16.dp))
+    }
+}
+
 private fun decoupledConstraints(margin: Dp): ConstraintSet {
     return ConstraintSet {
         val button = createRefFor("button")
@@ -283,6 +303,14 @@ private fun decoupledConstraints(margin: Dp): ConstraintSet {
         constrain(text) {
             top.linkTo(button.bottom, margin = margin)
         }
+    }
+}
+
+@Preview
+@Composable
+fun IntrinsicsPreview() {
+    ComposeLayoutTheme {
+        TwoText()
     }
 }
 
