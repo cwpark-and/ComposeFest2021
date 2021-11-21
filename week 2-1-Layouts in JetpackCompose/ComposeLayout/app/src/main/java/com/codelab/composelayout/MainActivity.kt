@@ -156,8 +156,8 @@ fun BodyContents(modifier: Modifier = Modifier) {
 @Composable
 fun DefaultPreview() {
     ComposeLayoutTheme {
-        MainLayout() {
-            BodyContents()
+        MainLayout {
+            BodyContents(Modifier.horizontalScroll(rememberScrollState()))
         }
     }
 }
