@@ -294,8 +294,8 @@ private fun HomeFloatingActionButton(
                 contentDescription = null
             )
             // Toggle the visibility of the content with animation.
-            // TODO 2-1: Animate this visibility change.
-            if (extended) {
+//            if (extended) {
+            AnimatedVisibility(visible = extended) {
                 Text(
                     text = stringResource(R.string.edit),
                     modifier = Modifier
@@ -312,10 +312,18 @@ private fun HomeFloatingActionButton(
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun EditMessage(shown: Boolean) {
-    // TODO 2-2: The message should slide down from the top on appearance and slide up on
-    //           disappearance.
     AnimatedVisibility(
-        visible = shown
+        visible = shown,
+        enter = slideInVertically(
+            // 상단에서부터 (-fullHeight) 0 까지 슬라이딩
+            initialOffsetY = {fullHeight ->  -fullHeight},
+            animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
+        ),
+        exit = slideOutVertically(
+            // 하단에서부터 (0) -fullHeight 까지 슬라이딩
+            targetOffsetY = {fullHeight ->  -fullHeight},
+            animationSpec = tween(durationMillis = 250, easing = LinearOutSlowInEasing)
+        )
     ) {
         Surface(
             modifier = Modifier.fillMaxWidth(),
