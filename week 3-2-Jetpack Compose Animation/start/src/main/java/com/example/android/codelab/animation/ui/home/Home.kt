@@ -476,7 +476,6 @@ private fun HomeTabIndicator(
     tabPositions: List<TabPosition>,
     tabPage: TabPage
 ) {
-    // TODO 4: Animate these value changes.
     val transition = updateTransition(targetState = tabPage, label = "Tab indicator")
 //    val indicatorLeft = tabPositions[tabPage.ordinal].left
     // indicator의 왼쪽 엣지
