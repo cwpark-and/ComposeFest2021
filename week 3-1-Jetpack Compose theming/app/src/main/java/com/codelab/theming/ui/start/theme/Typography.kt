@@ -35,6 +35,16 @@ val JetnewsTypography = Typography(
         fontWeight = FontWeight.W600,
         fontSize = 16.sp
     ),
+    subtitle1 = TextStyle(
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.W600,
+        fontSize = 16.sp
+    ),
+    subtitle2 = TextStyle(
+        fontFamily = Montserrat,
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp
+    ),
     body1 = TextStyle(
         fontFamily = Domine,
         fontWeight = FontWeight.Normal,
