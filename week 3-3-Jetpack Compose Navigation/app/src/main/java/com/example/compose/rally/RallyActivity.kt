@@ -86,7 +86,7 @@ fun RallyApp() {
 }
 
 @Composable
-private fun RallyNaviHost(
+fun RallyNaviHost(
     navController: NavHostController,
     modifier: Modifier
 ) {

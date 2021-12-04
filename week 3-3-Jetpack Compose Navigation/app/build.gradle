@@ -107,6 +107,7 @@ dependencies {
 
     // Testing dependencies
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
+    androidTestImplementation 'androidx.test:core-ktx:1.4.0'
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2'
