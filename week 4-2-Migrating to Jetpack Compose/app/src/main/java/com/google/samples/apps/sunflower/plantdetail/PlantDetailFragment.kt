@@ -31,6 +31,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.composethemeadapter.MdcTheme
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.samples.apps.sunflower.R
@@ -74,7 +75,7 @@ class PlantDetailFragment : Fragment() {
             composeView.apply {
                 setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed) // Fragment view 의 lifeCycleOwner 가 파괴될때 composition 을 해제(?) 한다
                 setContent {
-                    MaterialTheme {
+                    MdcTheme {
                         PlantDetailDescription(plantDetailViewModel = plantDetailViewModel)
                     }
                 }
