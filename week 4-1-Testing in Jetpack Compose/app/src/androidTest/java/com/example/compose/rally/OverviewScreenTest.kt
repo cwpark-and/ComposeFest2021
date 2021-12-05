@@ -12,15 +12,12 @@ class OverviewScreenTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    @Before
-    fun setupOverviewScreen() {
-        composeTestRule.setContent {
-            RallyApp()
-        }
-    }
-
     @Test
     fun overviewScreen_alertDisplayed() {
+        composeTestRule.setContent {
+            RallyApp(RallyScreen.Overview){}
+        }
+
         composeTestRule
             .onNodeWithText("Alerts")
             .assertIsDisplayed()
