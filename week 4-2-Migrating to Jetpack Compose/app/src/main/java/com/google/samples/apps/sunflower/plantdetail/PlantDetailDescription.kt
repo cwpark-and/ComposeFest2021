@@ -18,10 +18,14 @@ package com.google.samples.apps.sunflower.plantdetail
 
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -154,7 +158,8 @@ fun PlantDetailContent(plant: Plant) {
         android:layout_margin="@dimen/margin_normal">*/
     Surface() {
         Column(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.margin_normal))
+            modifier = Modifier
+                .padding(dimensionResource(id = R.dimen.margin_normal))
         ) {
             PlantName(name = plant.name)
             PlantWatering(wateringInterval = plant.wateringInterval)
